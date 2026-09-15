@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
-import './App.css'
-
-
+import './index.css'
+import Header from './Header'
+import Footer from './Footer'
 
 function App() {
-
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -28,6 +27,10 @@ function App() {
 
     return (
       <>
+        <section>
+          <Header />
+        </section>
+
         <div>
           {loading && <p>Loading...</p>}
           {error && <p style={{ color: 'red' }}>Error: {error.message}</p>}
@@ -42,6 +45,10 @@ function App() {
             </ul>
           )}
         </div>
+
+        <section>
+          <Footer />
+        </section>
       </>
     )
 }
