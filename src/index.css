@@ -115,6 +115,22 @@ p {
   justify-content: center;
   align-items: center;
   padding: 1rem;
+  gap: 1rem;
+}
+
+#album-genres {
+  padding: 0.4rem;
+}
+
+.visually-hidden {
+  border: 0;
+  clip-path: inset(50%);
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
 .search-wrapper {
@@ -133,9 +149,14 @@ p {
   padding-bottom: 0.4rem;
 }
 
+.content {
+  flex: 1;
+}
+
 .album-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 300px));
+  justify-content: center;   
   gap: 1rem;
   padding: 1rem;
 }
@@ -209,7 +230,6 @@ p {
   color: var(--accent);
   font-size: 0.75rem;
 }
-
 
 footer {
   background-color: var(--accent-bg);

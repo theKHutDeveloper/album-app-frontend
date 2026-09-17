@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react'
 
-export default function FilterBar({ search, onSearchChange }) {
+export default function FilterBar({ search, onSearchChange, genres, selectedGenre, onGenreChange }) {
     return (
         <div className="filter-bar">
             <div className="search-wrapper">
@@ -12,7 +12,25 @@ export default function FilterBar({ search, onSearchChange }) {
                     onChange={(e) => onSearchChange(e.target.value)}
                     placeholder=  "Search..." 
                 />
-          </div>
+            </div>
+
+            <div className="genre-filter">
+                <label className="visually-hidden" htmlFor="album-genres">Select genre</label>
+
+                <select 
+                    id="album-genres" 
+                    aria-label="Select genre" 
+                    value={selectedGenre} 
+                    onChange={(e) => onGenreChange(e.target.value)}
+                >
+                    <option value="">All genres</option>
+                    { genres && (
+                        genres.map(genre => (
+                            <option value={genre.name} key={genre.name + "-" +genre.id}>{genre.name}</option>
+                        ))
+                    )}
+                </select> 
+            </div>
         </div>
     )
 }
