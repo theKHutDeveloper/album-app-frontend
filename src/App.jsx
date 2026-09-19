@@ -12,6 +12,7 @@ function App() {
     const [search, setSearch] = useState('')
     const [genre, setGenre] = useState('')
     const [genreData, setGenreData] = useState(null)
+    const [format, setFormat] = useState('')
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,6 +24,9 @@ function App() {
 
                 if (search) params.append('search', search)
                 if (genre) params.append('genre', genre)
+                if (format) {
+                    format === "physical" ? params.append('physical', 1) : params.append('streaming', 1)
+                }
                   
                 const response = await fetch(`http://localhost:8000/api/albums?${params}`)
 
@@ -34,7 +38,7 @@ function App() {
             }
           }
           fetchData()
-    }, [search, genre])
+    }, [search, genre, format])
 
     useEffect(() => {
       const fetchGenreData = async () => {
@@ -59,7 +63,9 @@ function App() {
                       onSearchChange={setSearch} 
                       genres={genreData} 
                       selectedGenre={genre} 
-                      onGenreChange={setGenre} 
+                      onGenreChange={setGenre}
+                      selectedFormat={format}
+                      onFormatChange={setFormat}
                       />
                 </section>
 
@@ -75,7 +81,7 @@ function App() {
                     </div>
                 </div>
             </main>
-            
+
             <Footer />
         </>
     )

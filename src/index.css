@@ -118,8 +118,9 @@ p {
   gap: 1rem;
 }
 
-#album-genres {
+#album-genres, #media-format {
   padding: 0.4rem;
+  color: var(--text);
 }
 
 .visually-hidden {
@@ -138,11 +139,13 @@ p {
   display: flex;
   align-items: center;
 }
+
 .search-wrapper svg {
   position: absolute;
   left: 0.6rem;
   pointer-events: none;   /* clicks pass through to the input */
 }
+
 .search-wrapper input {
   padding-left: 2rem;   /* room so text starts after the icon */
   padding-top: 0.4rem;

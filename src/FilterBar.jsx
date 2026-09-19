@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react'
 
-export default function FilterBar({ search, onSearchChange, genres, selectedGenre, onGenreChange }) {
+export default function FilterBar({ search, onSearchChange, genres, selectedGenre, onGenreChange, selectedFormat, onFormatChange }) {
     return (
         <div className="filter-bar">
             <div className="search-wrapper">
@@ -30,6 +30,21 @@ export default function FilterBar({ search, onSearchChange, genres, selectedGenr
                         ))
                     )}
                 </select> 
+            </div>
+
+            <div className="media-filter">
+                <label className="visually-hidden" htmlFor="media-format">Select format</label>
+
+                <select 
+                    id="media-format" 
+                    aria-label="Select format" 
+                    value={selectedFormat} 
+                    onChange={(e) => onFormatChange(e.target.value)}
+                >
+                    <option value="">All formats</option>
+                    <option value="physical">Physical CDs</option>
+                    <option value="streaming">Streaming</option>
+                </select>
             </div>
         </div>
     )
