@@ -10,9 +10,20 @@ function App() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [search, setSearch] = useState('')
+    const [debouncedSearch, setDebouncedSearch] = useState('')
     const [genre, setGenre] = useState('')
     const [genreData, setGenreData] = useState(null)
     const [format, setFormat] = useState('')
+
+    const baseUrl = 'http://localhost:8000/api/albums'
+
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setDebouncedSearch(search)
+      }, 300)
+
+      return () => clearTimeout(timer)
+    }, [search])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,13 +33,13 @@ function App() {
             try {
                 const params = new URLSearchParams()
 
-                if (search) params.append('search', search)
+                if (debouncedSearch) params.append('search', debouncedSearch)
                 if (genre) params.append('genre', genre)
                 if (format) {
                     format === "physical" ? params.append('physical', 1) : params.append('streaming', 1)
                 }
                   
-                const response = await fetch(`http://localhost:8000/api/albums?${params}`)
+                const response = await fetch(`${baseUrl}?${params}`)
 
                 setData(await response.json())
             } catch (error) {
@@ -38,12 +49,12 @@ function App() {
             }
           }
           fetchData()
-    }, [search, genre, format])
+    }, [debouncedSearch, genre, format])
 
     useEffect(() => {
       const fetchGenreData = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/albums/genres`)
+            const response = await fetch(`${baseUrl}/genres`)
             setGenreData(await response.json())
         } catch (error) {
           console.log('could not load genres', error)
@@ -57,21 +68,21 @@ function App() {
             <Header />
 
             <main className='content'>
-                <section>
-                    <FilterBar 
-                      search={search} 
-                      onSearchChange={setSearch} 
-                      genres={genreData} 
-                      selectedGenre={genre} 
-                      onGenreChange={setGenre}
-                      selectedFormat={format}
-                      onFormatChange={setFormat}
-                      />
-                </section>
-
+                
+                <FilterBar 
+                    search={search} 
+                    onSearchChange={setSearch} 
+                    genres={genreData} 
+                    selectedGenre={genre} 
+                    onGenreChange={setGenre}
+                    selectedFormat={format}
+                    onFormatChange={setFormat}
+                />
+               
                 <div>
                     {loading && <p>Loading...</p>}
                     {error && <p style={{ color: 'red' }}>Error: {error.message}</p>}
+                    {!loading && data && data.length === 0 && <p>No albums found</p>}
                     <div className="album-grid">
                       {data && (  
                           data.map(album => (
